@@ -1,0 +1,5 @@
+; Minimal editor bootstrap. Target engine release remains undecided.
+config_version=5
+
+[application]
+config/name="mini-shipper"
