@@ -1,24 +1,29 @@
 # mini-shipper
 
-Dự án downstream đầu tiên dùng để dogfood `gdev-dzu-agents`.
+Prototype indie game 2D pixel art bằng Godot, đồng thời là downstream dogfood project cho `gdev-dzu-agents`.
 
-- Project Name: `mini-shipper`
-- Project Prefix: `MNS`
-- Engine: Godot; phiên bản mục tiêu chưa được chọn.
+- Project: `mini-shipper` / Prefix: `MNS`
+- Engine chính: Godot (chưa chốt phiên bản); Unity chỉ để học đối chiếu, không thuộc runtime của repo.
 - Initial Story: [MNS-0001](specs/stories/2026/MNS-0001.md), Type `FEATURE`, Document Status `DRAFT`.
+- Owner decisions cập nhật ngày 2026-10-09.
 
-## Hồ sơ bootstrap
+## Tài liệu
+- [Project Intent và các quyết định đã chốt](specs/vision/project-intent.md)
+- [EPIC và roadmap đề xuất](specs/epics/2026/initial-prototype.md)
+- [MNS-0001: World, Terrain & Camera](specs/stories/2026/MNS-0001.md)
+- [Dogfood observations](specs/dogfood-observations.md)
 
-- [Bối cảnh dự án](specs/vision/project-intent.md)
-- [Ý định EPIC đầu tiên](specs/epics/2026/initial-prototype.md)
-- [Quan sát dogfood và giới hạn kiểm chứng](specs/dogfood-observations.md)
+## Gameplay direction
+- Playable grid 20x10, `Vector2i` 0-based, scenery 2 cells mỗi phía (vùng vẽ 24x14).
+- Grid-step smooth movement, WASD/Arrow Keys, giữ phím để đi liên tục, Shift để chạy.
+- Camera follow với giới hạn, thấy scenery ngoài playable.
+- Delivery Points có ID, hỗ trợ nhiều tuyến.
+- Tối đa 5 notifications pending, mỗi notification có 10 giây Accept/Reject.
+- Delivery Timer riêng bắt đầu khi Accept, dựa trên đường đi; công thức reward/penalty chưa chốt.
 
-Các tên file và phần trình bày này chỉ phục vụ bootstrap cục bộ, không xác lập schema hay quy ước framework. ID Story tăng tuần tự toàn dự án, không reset theo năm; hiện chỉ có `MNS-0001`.
+## Trạng thái
+`project.godot` tại repo root để import vào Godot. Repo vẫn ở giai đoạn **bootstrap**: chưa có main scene, scripts, tilemap, input map, camera hoặc gameplay chạy được. Cập nhật tài liệu không đồng nghĩa implementation hay verification.
 
-`project.godot` ở gốc để import dự án trong Godot Project Manager. `config_version=5` là định dạng file cấu hình bootstrap, không phải quyết định chọn một bản phát hành Godot cụ thể. Chưa có main scene, script, Input Map hay gameplay; bootstrap chỉ nhằm mở dự án trong editor, chưa chạy game.
+`src/` dành cho implementation, `specs/` lưu intent/history, `docs/` lưu release truth và `releases/` lưu release records. Không tạo placeholder cho thư mục chưa dùng.
 
-`src/` dành cho implementation sau này. `specs/` giữ Owner Intent và lịch sử phát triển. `docs/` dành cho sự thật hiện hành của bản phát hành; `releases/` dành cho hồ sơ release. Các thư mục chưa có nội dung được để trống, không có release nào được tạo.
-
-Framework tham chiếu tại `../../gdev-dzu-agents/gdev-dzu-agents/` (đường dẫn local: `E:\Github\gdev-dzu-agents\gdev-dzu-agents`), snapshot `ebf1f2f`. Không sao chép Agents, Skills hoặc governance sang dự án. Cách downstream tiêu thụ/gọi framework chưa được định nghĩa.
-
-Nguồn Owner Intent: yêu cầu “Bootstrap mini-shipper Dogfood Project” của Human Project Owner trong phiên ngày 2026-10-07. Nội dung cần thiết đã được lưu trong các hồ sơ liên kết; không phụ thuộc file attachment tạm thời.
+Framework bootstrap reference: `../../gdev-dzu-agents/gdev-dzu-agents/`, snapshot `ebf1f2f`. Đây là đường dẫn local tham chiếu, chưa phải integration contract. Không sao chép Agent/Skill/governance vào game. Story IDs tuần tự toàn project; hiện chỉ tồn tại `MNS-0001`.
