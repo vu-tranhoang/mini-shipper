@@ -79,3 +79,43 @@ Suggested state machine: OFFERED -> ACCEPTED -> TO_PICKUP -> TO_DELIVERY -> COMP
 ## Follow-up
 - Align Owner Intent, EPIC, and Story scope after the owner reviews this demo concept.
 - Create implementation stories only according to `gdev-dzu-agents` governance once the workflow is agreed.
+
+
+## Owner idea update — 2026-10-15: store catalog, NPC roles and cargo-bag puzzle
+
+**Scope:** Preserve as product direction and future-feature backlog. The cargo bag arrangement mini-game is explicitly **not part of the first simple demo**.
+
+### NPC / location capabilities
+- A location/NPC can be **sender-only**, **receiver-only**, or **both**.
+- Suggested model: `can_send` and `can_receive` capabilities, rather than forcing mutually exclusive classes. A normal customer may only receive; a restaurant can send meals and receive supplies.
+- A valid randomly generated mission chooses a source with `can_send=true` and a destination with `can_receive=true`; they must be distinct and reachable.
+- Separate NPC identity, business/location identity, role capabilities and map position so these can evolve independently.
+
+### Store-specific merchandise
+- Order contents must be consistent with the **sender's catalog/business type**.
+- Examples: restaurant -> meals/noodles; milk-tea shop -> milk tea. A restaurant can receive ingredients or goods ordered from another supplier.
+- Future data model candidates: `ItemDefinition` (ID, category, footprint), `StoreCatalog` (allowed item IDs), `Order` (source, destination, item lines), `LocationCapabilities`.
+- Do not randomly select unrelated items for a shop. Catalog rules, stock and demand generation need later design.
+
+### Future cargo-bag mini-game (DEFERRED)
+- Every shipper has a cargo bag with a **grid of cells**; item footprints occupy multiple cells.
+- Illustrative owner examples: one bowl of noodles occupies **4 cells**, one milk tea occupies **2 cells**. Exact shapes, orientation and stacking are not decided.
+- The player must physically arrange accepted items inside the bag; this is a spatial packing puzzle, not merely a count of free cells.
+- Upgrades can expand bag dimensions/capacity, enabling more concurrent deliveries.
+- Before accepting/picking up another order, check **current occupied cells, shapes and placement feasibility**, not only maximum cell count.
+- Orders offered/accepted should respect the shipper's capacity; distinguish total capacity, current occupancy, pending orders and items already picked up.
+- Once cargo is removed/discarded after pickup, the source shop **does not reissue the same goods/order automatically**. Exact penalties, recovery, confirmation and cancellation behavior remain open.
+- Do not silently discard cargo or generate an impossible packing state.
+
+### Important open design questions (future)
+- Is packing enforced at offer, accept, pickup, or all three stages? How are reserved vs physically carried items represented?
+- Are rotations permitted? Can food be stacked, or is each item a rigid 2D shape? What happens with multiple quantities?
+- What is the initial bag grid and upgrade progression?
+- Can the player rearrange carried goods anytime? What are the consequences of removing an item?
+- How does store stock, item availability, destination demand and reward pricing interact?
+- How do multiple concurrent deliveries interact with the existing max-five *pending notification* rule (not the same as active-order capacity)?
+
+### Near-term demo boundary
+- **Include in the simple demo design:** role-constrained NPC selection and optionally small fixed sender catalogs to demonstrate restaurant vs milk-tea shop.
+- **Defer:** bag grid, item placement/rotation, capacity upgrades, cargo discard rules, multi-order packing and economy/stock simulation.
+- Do not create implementation stories or modify gameplay code as part of this note.
