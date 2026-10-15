@@ -80,3 +80,21 @@ Acceptance test tối thiểu trước khi nhập Godot:
 - [ ] Chốt quyết định art/tilemap với owner.
 - [ ] Thiết kế skill Codex trong framework.
 - [ ] Tích hợp/kiểm thử bằng asset thật.
+
+
+## Quyết định định hướng học tập — 2026-10-15
+
+**Owner decision:** Tạm hoãn nghiên cứu/triển khai Isometric 2:1 cho prototype MNS. Ưu tiên **2D top-down / 3-4 presentation kiểu Stardew Valley với square-grid TileMap**, nhằm học và hoàn thiện một game chạy mượt trước. Đây là quyết định về **ưu tiên và hướng nghệ thuật prototype**, không phải kết luận Isometric không phù hợp.
+
+### Trọng tâm trước mắt
+1. TileMap vuông, ground và object rõ ràng; atlas nhập vào Godot không chồng vùng.
+2. Player controller, animation và collision mượt; camera follow ổn định.
+3. Interaction và vòng gameplay shipper nhận đơn -> pickup -> delivery -> completion.
+4. Polish và kiểm thử cảm giác điều khiển, hiệu năng, asset pipeline.
+5. Isometric được lưu trong research backlog; chỉ quay lại khi gameplay prototype đủ vững.
+
+### Tác động và ranh giới
+- Những thông số thử nghiệm Isometric như 96x48, diamond layout và transition hình thoi **không áp dụng** cho prototype top-down hiện tại.
+- Vẫn có thể tận dụng skill chung về art direction, character sprites, atlas packing, transparent cleanup, validation và asset automation, nhưng cần điều chỉnh cho square grid/top-down.
+- **Chưa chốt** tile size vuông, resolution, movement model hoặc animation frame count. Các yêu cầu movement grid-step 4 hướng trong `specs/vision/project-intent.md` và MNS-0001 vẫn có hiệu lực cho tới khi Owner duyệt thay đổi cụ thể.
+- Đây là ghi chú quyết định mới; cần đồng bộ các specs owner-confirmed trước khi triển khai những phần xung đột.
