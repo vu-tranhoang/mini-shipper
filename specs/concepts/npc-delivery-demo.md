@@ -153,3 +153,13 @@ Suggested state machine: OFFERED -> ACCEPTED -> TO_PICKUP -> TO_DELIVERY -> COMP
 - First playable demo can start with a small number of time/distance bands and an editable pricing table; no need to implement advanced economy or cargo-bag packing.
 - Previous fixed payout examples in this document are **superseded as the desired model** by the owner decision to use random payout ranges per time window.
 - Pending: define game clock speed, complete 24-hour coverage, pricing moment, currency unit, and reward rounding; do not silently assume these are finalized.
+
+
+## Owner decision — 2026-10-15: initial in-game clock speed
+
+- Use **in-game time**, not the player's real-world wall clock, for pricing and future NPC schedules.
+- Initial configurable rate: **1 real minute = 1 game hour**, hence **1 full game day = 24 real minutes** while the simulation clock is advancing.
+- This is a **prototype tuning value**, not a permanent balance constraint. Centralize the rate in configuration; no hardcoded 60:1 assumptions throughout gameplay systems.
+- Pricing uses the in-game hour at the agreed order-pricing moment, then locks the generated payout into that order.
+- Still to decide: starting game hour, pause/menu behavior, offline progression, time display format and persistence.
+- Immediate next action: clone `vu-tranhoang/mini-shipper` locally and import existing `project.godot` into Godot; **no gameplay code requested yet**.
