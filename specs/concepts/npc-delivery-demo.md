@@ -119,3 +119,37 @@ Suggested state machine: OFFERED -> ACCEPTED -> TO_PICKUP -> TO_DELIVERY -> COMP
 - **Include in the simple demo design:** role-constrained NPC selection and optionally small fixed sender catalogs to demonstrate restaurant vs milk-tea shop.
 - **Defer:** bag grid, item placement/rotation, capacity upgrades, cargo discard rules, multi-order packing and economy/stock simulation.
 - Do not create implementation stories or modify gameplay code as part of this note.
+
+
+## Owner update — 2026-10-15: dynamic delivery reward ranges by in-game time
+
+**Owner intent:** Delivery payout must **not** be a single fixed value per distance band. The balance tool must edit **minimum and maximum payout ranges** by **distance interval and in-game time window**. For example, 5–10 cells can yield 15–25đ in one time window, and a different range during peak hours. The values and time bands below are illustrative, not confirmed economy balance.
+
+### Proposed configuration table
+| Time window (game clock) | Distance min (cells) | Distance max (cells) | Reward min | Reward max |
+|---|---:|---:|---:|---:|
+| 06:00–11:00 | 5 | 10 | 15 | 25 |
+| 11:00–14:00 | 5 | 10 | 25 | 40 |
+| 14:00–18:00 | 5 | 10 | 18 | 30 |
+| 18:00–23:00 | 5 | 10 | 30 | 50 |
+
+### Pricing rules to evaluate
+1. Determine delivery route distance using the agreed traversable-path distance algorithm.
+2. Read **in-game time** at the moment an order is generated/offered (exact pricing moment to be finalized).
+3. Find the matching distance interval and time window; sample a random integer amount within `[reward_min, reward_max]` (inclusive, proposed).
+4. **Lock the sampled payout into the order** when generated so the displayed offer and eventual reward remain stable even if the clock changes while delivering.
+5. Store the pricing rule/version or source values with the order for debug/reproducibility.
+6. Avoid gaps, overlaps and invalid bands. Handle cross-midnight windows (e.g. 22:00–02:00), missing config and boundaries explicitly.
+7. Define a seedable random generator for reproducible test cases.
+
+### Balance tool requirements
+- Editable **table**, not gameplay source edits, with columns for time window, distance range, min/max payout.
+- Add/edit/delete rules, validation, save/load and a preview/simulator for selected game time and distance.
+- Persist to a versioned configuration file (JSON candidate; Godot Resource alternative).
+- Pricing calculation must be a separate service, independent of editor UI.
+- Later extensibility: peak-hour bonuses, weather, urgency, cargo size, shop type and economic progression. These are ideas only, not part of the initial demo.
+
+### Demo boundary
+- First playable demo can start with a small number of time/distance bands and an editable pricing table; no need to implement advanced economy or cargo-bag packing.
+- Previous fixed payout examples in this document are **superseded as the desired model** by the owner decision to use random payout ranges per time window.
+- Pending: define game clock speed, complete 24-hour coverage, pricing moment, currency unit, and reward rounding; do not silently assume these are finalized.
